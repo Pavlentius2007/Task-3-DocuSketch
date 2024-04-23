@@ -1,0 +1,25 @@
+import psutil
+import requests
+
+API_URL = "http://example.com/alarm"
+
+MEMORY_THRESHOLD = 80
+
+def check_memory_usage():
+    memory_percent = psutil.virtual_memory().percent
+    if memory_percent > MEMORY_THRESHOLD:
+        send_alarm()
+
+def send_alarm():
+    try:
+        response = requests.post(API_URL)
+        if response.status_code == 200:
+            print("Alarm sent successfully")
+        else:
+            print("Failed to send alarm")
+    except requests.exceptions.RequestException as e:
+        print("Error sending alarm:", e)
+
+if __name__ == "__main__":
+    while True:
+        check_memory_usage()
